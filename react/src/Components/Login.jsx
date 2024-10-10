@@ -16,7 +16,7 @@ function Login() {
 
   function handleSubmit(e){
     e.preventDefault()
-    axios.post('http://localhost:8000/admin-login',{email,password},{withCredentials: true})
+    axios.post('https://perfume-6ju9.onrender.com/admin-login',{email,password},{withCredentials: true})
     // .then((res)=>{
     //   console.log(res);
      

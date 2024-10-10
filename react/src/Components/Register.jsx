@@ -18,7 +18,7 @@ async function handleSubmit(e)
 {
   e.preventDefault()
   try{
-  const res=await axios.post('http://localhost:8000/register',{username,email,password})
+  const res=await axios.post('https://perfume-6ju9.onrender.com/register',{username,email,password})
     
       console.log(res);
       toast(res.data.message)
