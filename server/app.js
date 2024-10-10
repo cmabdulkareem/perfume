@@ -30,11 +30,15 @@ app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 app.use(cookieparser())
 app.use(session({
-          secret: "secret",
-          resave: false,
-          saveUninitialized:false,
-          cookie: {secure: true, maxAge: 1000*60*60*24}
-}))
+  secret: "secret",                     // Use a strong secret for production
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production', // Only use secure cookies in production
+    maxAge: 1000 * 60 * 60 * 24          // 1 day
+  }
+}));
+
 
 // app.options('*', cors())
 
