@@ -15,11 +15,13 @@ const app =express()
 const PORT =process.env.PORT || 3000
 
 const corsOptions = {
-  origin: "https://perfume-black.vercel.app",  L
-  methods: "GET,POST,HEAD,PUT,PATCH,DELETE",   
-  credentials: true,                          
+  origin: "https://perfume-black.vercel.app",
+  methods: "GET,POST,HEAD,PUT,PATCH,DELETE", 
+  credentials: true,
   allowedHeaders: "Content-Type, Authorization"
 };
+
+app.use(cors(corsOptions));
 
 app.use(cors(corsOptions));
 
