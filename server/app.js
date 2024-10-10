@@ -15,7 +15,7 @@ const app =express()
 const PORT =process.env.PORT || 3000
 
 const corsOptions = {
-      origin:"https://perfume-black.vercel.app/",
+      origin:"https://perfume-black.vercel.app",
       method: "GET,POST,HEAD,PUT,PATCH,DELETE",
       credentials: true,
       allowedHeader: "Content-Type, Authorization"
