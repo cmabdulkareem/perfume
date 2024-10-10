@@ -15,12 +15,14 @@ const app =express()
 const PORT =process.env.PORT || 3000
 
 const corsOptions = {
-      origin:"https://perfume-black.vercel.app",
-      method: "GET,POST,HEAD,PUT,PATCH,DELETE",
-      credentials: true,
-      allowedHeader: "Content-Type, Authorization"
+  origin: "https://perfume-black.vercel.app",  L
+  methods: "GET,POST,HEAD,PUT,PATCH,DELETE",   
+  credentials: true,                          
+  allowedHeaders: "Content-Type, Authorization"
+};
 
-}
+app.use(cors(corsOptions));
+
 app.use(cors(corsOptions))
 app.use(express.static("public"))
 app.use(fileUpload())
@@ -30,7 +32,7 @@ app.use(cookieparser())
 app.use(session({
           secret: "secret",
           resave: false,
-          saveUninitialized:true,
+          saveUninitialized:false,
           cookie: {secure: true, maxAge: 1000*60*60*24}
 }))
 
