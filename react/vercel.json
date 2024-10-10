@@ -1,0 +1,12 @@
+{
+    "rewrites": [
+      {
+        "source": "/checkauth",
+        "destination": "https://verceltest-hgdz.onrender.com/checkauth"
+      },
+      {
+        "source": "/(.*)",
+        "destination": "/"
+      }
+    ]
+  }
