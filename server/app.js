@@ -14,10 +14,8 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Check if the app is running in production and set the trust proxy setting
-if (app.get('env') === 'production') {
-    app.set('trust proxy', 1);
-}
+
+app.set('trust proxy', 1)
 
 const sessionStorage = MongoStore.create({
     mongoUrl: 'mongodb+srv://kareem:kar123@sample.kvxwkea.mongodb.net',
