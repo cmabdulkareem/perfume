@@ -36,56 +36,54 @@ export const handleRegistration = (req,res)=>{
 }
 
 
-export const handleLogin =(req,res)=>{
-    const {email,password} =req.body
-    UserModel.findOne({email})
-      .then((user)=>{
-        if(!user){
-          return res.status(401).json({error: "no user found with this email"})
-        }
+export const handleLogin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await UserModel.findOne({ email });
 
-        bcrypt.compare(password,user.password)
-          .then((isMatch)=>{
-            if(!isMatch){
-               return res.status(401).json({error: "incorrect password"})
-            }
-            req.session.userId =user.id;
-            res.status(200).json({message:"Login successful"})
-          })
-          .catch((error)=>{
-            res.status(500).json({error: "error connecting server"})
-          })
-      })
-      .catch((error)=>{
-        return res.status(401).json({error:"No user found with this email"})
-      })
-}
-
-export const authChecking =(req,res)=>{
-  if(req.session.userId){
-    return res.status(200).json({authenticated: true})
-  }else{
-    res.status(200).json({authenticated: false})
-  }
-  }
-
-  export const getDashboard =(req,res)=>{
-    if(!req.session.userId){
-      return res.status(401).json({error:"not authenticatrd"})
+    if (!user) {
+      return res.status(401).json({ error: "No user found with this email" });
     }
 
-          UserModel.findById(req.session.userId)
-                .then((user)=>{
-                  if(!user){
-                    return res.status(404).json({error:"user not found"})
-                  }
-                  res.status(200).json({email:user.email})
-                })
-                .catch((error)=>{
-                  res.status(500).json({error:'internal server error'})
-                })
+    const isMatch = await bcrypt.compare(password, user.password);
 
+    if (!isMatch) {
+      return res.status(401).json({ error: "Incorrect password" });
+    }
+
+    req.session.userId = user.id;
+    return res.status(200).json({ message: "Login successful" });
+  } catch (error) {
+    return res.status(500).json({ error: "Error connecting server" });
   }
+};
+
+export const authChecking = (req, res) => {
+  if (req.session.userId) {
+    return res.status(200).json({ authenticated: true });
+  } else {
+    return res.status(200).json({ authenticated: false });
+  }
+};
+
+export const getDashboard = async (req, res) => {
+  if (!req.session.userId) {
+    return res.status(401).json({ error: "Not authenticated" });
+  }
+
+  try {
+    const user = await UserModel.findById(req.session.userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    return res.status(200).json({ email: user.email });
+  } catch (error) {
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 
 
 export const handleLogout = (req,res) =>{
