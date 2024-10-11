@@ -15,6 +15,13 @@ dotenv.config()
 const app =express()
 const PORT =process.env.PORT || 3000
 
+const sessionStorage = MongoStore.create({
+     mongoUrl: 'mongodb+srv://kareem:kar123@sample.kvxwkea.mongodb.net',
+     dbName: 'perfume',
+     collectionName: 'sessions',
+     ttl: 24*60*60,
+     autoRemove : 'native'
+})
 const corsOptions = {
      origin:"https://perfume-black.vercel.app",
       methods: "GET,POST,HEAD,PUT,PATCH,DELETE",
@@ -31,14 +38,11 @@ app.use(cookieparser())
 app.use(session({
   secret: "secret",
   resave: false,
-  saveUninitialized: false,
-  store: MongoStore.create({
-    mongoUrl: 'mongodb+srv://kareem:kar123@sample.kvxwkea.mongodb.net/mydb', 
-    ttl: 24 * 60 * 60  
-  }),
+  saveUninitialized: true,
+  store: sessionStorage,
   cookie: {
     secure: true, 
-    maxAge: 1000 * 60 * 60 * 24 
+    maxAge: 100000 
   }
 }));
 
